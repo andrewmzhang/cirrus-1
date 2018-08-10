@@ -34,14 +34,13 @@ bool tolog;
 void loginit(bool a) {
   tolog = a;
 
-  if (tolog) {
+  if (!tolog) {
     std::cout << "Log init stopped" << std::endl;
     return;
   }
 
   try {
     auto logger = spdlog::basic_logger_mt("logger", "logs/log.txt");
-    spdlog::register_logger(logger);
     std::cout << "Log init success" << std::endl;
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log init failed: " << ex.what() << std::endl;
@@ -51,7 +50,7 @@ void loginit(bool a) {
 
 
 void logit(std::string str, uint64_t var) {
-  if (tolog)
+  if (!tolog)
     return;
 
   auto logger = spdlog::get("logger");

@@ -157,7 +157,8 @@ int main(int argc, char** argv) {
 
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   check_arguments();
-
+  
+  std::cout << "FLOG: " << FLAGS_flog << std::endl;
   cirrus::loginit(FLAGS_flog);
 
   int nworkers = FLAGS_nworkers;
