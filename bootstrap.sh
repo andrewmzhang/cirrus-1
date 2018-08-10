@@ -11,6 +11,14 @@ if [ ! -d "eigen_source" ]; then
   sh get_eigen.sh
 fi
 
+# get spdlog
+cd spdlog
+mkdir build
+cd build
+make -j 10
+cd ..
+cd ..
+
 # get keyutils library
 KEYUTILS=keyutils-1.5.10
 if [ ! -f $KEYUTILS.tar.bz2 ]; then
