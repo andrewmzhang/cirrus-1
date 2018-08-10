@@ -10,6 +10,7 @@
 #include "Momentum.h"
 #include "SGD.h"
 #include "Nesterov.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 #undef DEBUG
 
@@ -363,8 +364,11 @@ void PSSparseServerTask::gradient_f() {
     }
 
     if (operation == SEND_LR_GRADIENT) {
+      auto start_send_lr_gradient = get_time_us();
       if (!process_send_lr_gradient(req, thread_buffer)) {
         break;
+      } else {
+        logit("process_send_lr_gradient_us", get_time_us() - start_send_lr_gradient);
       }
     } else if (operation == SEND_MF_GRADIENT) {
       if (!process_send_mf_gradient(req, thread_buffer)) {
@@ -375,8 +379,12 @@ void PSSparseServerTask::gradient_f() {
       std::cout << "process_get_lr_sparse_model" << std::endl;
       auto before = get_time_us();
 #endif
+
+      auto start_get_lr_sparse_model = get_time_us();
       if (!process_get_lr_sparse_model(req, thread_buffer)) {
         break;
+      } else {
+        logit("process_get_lr_sparse_model_us", get_time_us() - start_get_lr_sparse_model);
       }
 #ifdef DEBUG
       auto elapsed = get_time_us() - before;

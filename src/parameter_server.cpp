@@ -9,6 +9,8 @@
 
 #include <gflags/gflags.h>
 
+#include "Utils.h"
+
 DEFINE_int64(nworkers, -1, "number of workers");
 DEFINE_int64(rank, -1, "rank");
 DEFINE_string(config, "", "config");
@@ -152,6 +154,8 @@ int main(int argc, char** argv) {
 
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   check_arguments();
+
+  cirrus::loginit();
 
   int nworkers = FLAGS_nworkers;
   std::cout << "Running parameter server with: "

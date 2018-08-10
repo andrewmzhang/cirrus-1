@@ -7,6 +7,9 @@
 #include <unistd.h>
 #include <cstring>
 
+#include <spdlog/sinks/basic_file_sink.h> // support for basic file logging
+#include <spdlog/spdlog.h>
+
 #include "MurmurHash3.h"
 
 #undef DEBUG
@@ -24,6 +27,25 @@ void check_mpi_error(int err, std::string error) {
     }
 }
 #endif
+
+void loginit() {
+
+  try {
+    auto logger = spdlog::basic_logger_mt("logger", "logs/log.txt");
+    spdlog::register_logger(logger);
+    std::cout << "Log init success" << std::endl;
+  } catch (const spdlog::spdlog_ex &ex) {
+    std::cout << "Log init failed: " << ex.what() << std::endl;
+  }
+
+}
+
+
+void logit(std::string str, uint64_t var) {
+
+  auto logger = spdlog::get("logger");
+  logger->info("{} {}", str, var);
+}
 
 uint64_t get_time_us() {
     struct timeval tv;

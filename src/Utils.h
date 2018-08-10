@@ -18,6 +18,12 @@
 
 namespace cirrus {
 
+
+void loginit();
+void logit(std::string, uint64_t);
+
+
+
 /**
   * Get current time/epoch in ns
   */
