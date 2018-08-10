@@ -16,6 +16,8 @@
 #define FLOAT_EPS (1e-7)
 #define FLOAT_EQ(A, B) (std::fabs((A) - (B)) < FLOAT_EPS)
 
+
+
 namespace cirrus {
 
 

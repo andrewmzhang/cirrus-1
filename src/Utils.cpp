@@ -14,6 +14,9 @@
 
 #undef DEBUG
 
+#include <gflags/gflags.h>
+
+
 namespace cirrus {
 
 #if 0
@@ -28,7 +31,14 @@ void check_mpi_error(int err, std::string error) {
 }
 #endif
 
+
+
+DECLARE_bool(log);
+
 void loginit() {
+
+  if (!log)
+    return;
 
   try {
     auto logger = spdlog::basic_logger_mt("logger", "logs/log.txt");
@@ -42,6 +52,8 @@ void loginit() {
 
 
 void logit(std::string str, uint64_t var) {
+  if (!log)
+    return;
 
   auto logger = spdlog::get("logger");
   logger->info("{} {}", str, var);

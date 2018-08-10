@@ -11,6 +11,8 @@
 
 #include "Utils.h"
 
+DEFINE_bool(log, false, "log output");
+
 DEFINE_int64(nworkers, -1, "number of workers");
 DEFINE_int64(rank, -1, "rank");
 DEFINE_string(config, "", "config");
