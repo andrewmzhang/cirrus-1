@@ -30,10 +30,11 @@ void check_mpi_error(int err, std::string error) {
 }
 #endif
 
+bool tolog;
+void loginit(bool a) {
+  tolog = a;
 
-void loginit() {
-
-  if (::tolog) {
+  if (tolog) {
     std::cout << "Log init stopped" << std::endl;
     return;
   }
@@ -50,7 +51,7 @@ void loginit() {
 
 
 void logit(std::string str, uint64_t var) {
-  if (::tolog)
+  if (tolog)
     return;
 
   auto logger = spdlog::get("logger");

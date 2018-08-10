@@ -158,9 +158,7 @@ int main(int argc, char** argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   check_arguments();
 
-  tolog = FLAGS_flog;
-
-  cirrus::loginit();
+  cirrus::loginit(FLAGS_flog);
 
   int nworkers = FLAGS_nworkers;
   std::cout << "Running parameter server with: "
