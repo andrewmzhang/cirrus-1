@@ -10,8 +10,9 @@
 #include <gflags/gflags.h>
 
 #include "Utils.h"
+#include "common.h"
 
-DEFINE_bool(log, false, "log output");
+DEFINE_bool(flog, true, "log to file");
 
 DEFINE_int64(nworkers, -1, "number of workers");
 DEFINE_int64(rank, -1, "rank");
@@ -156,6 +157,8 @@ int main(int argc, char** argv) {
 
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   check_arguments();
+
+  tolog = FLAGS_flog;
 
   cirrus::loginit();
 

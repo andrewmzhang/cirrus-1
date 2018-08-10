@@ -9,6 +9,7 @@
 #include <string>
 #include <random>
 #include <cfloat>
+#include "common.h"
 
 #define LOG2(X) ((unsigned) (8*sizeof (uint64_t) - \
             __builtin_clzll((X)) - 1)
@@ -16,7 +17,7 @@
 #define FLOAT_EPS (1e-7)
 #define FLOAT_EQ(A, B) (std::fabs((A) - (B)) < FLOAT_EPS)
 
-
+bool tolog;
 
 namespace cirrus {
 

@@ -11,10 +11,9 @@
 #include <spdlog/spdlog.h>
 
 #include "MurmurHash3.h"
-
-#undef DEBUG
-
+#include "common.h"
 #include <gflags/gflags.h>
+
 
 
 namespace cirrus {
@@ -32,13 +31,12 @@ void check_mpi_error(int err, std::string error) {
 #endif
 
 
-
-DECLARE_bool(log);
-
 void loginit() {
 
-  if (!log)
+  if (::tolog) {
+    std::cout << "Log init stopped" << std::endl;
     return;
+  }
 
   try {
     auto logger = spdlog::basic_logger_mt("logger", "logs/log.txt");
@@ -52,7 +50,7 @@ void loginit() {
 
 
 void logit(std::string str, uint64_t var) {
-  if (!log)
+  if (::tolog)
     return;
 
   auto logger = spdlog::get("logger");
