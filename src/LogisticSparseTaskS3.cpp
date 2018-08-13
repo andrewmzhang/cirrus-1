@@ -20,8 +20,7 @@ void LogisticSparseTaskS3::push_gradient(LRSparseGradient* lrg) {
   if (is_sharded) {
     sparse_model_get->mpsi->send_gradient(*lrg);
     logit("sparse_model_get->mpsi->send_gradient", get_time_us() - t0);
-  }
-  else {
+  } else {
     sparse_model_get->psi->send_lr_gradient(*lrg);
     logit("sparse_model_get->psi->send_gradient", get_time_us() - t0);
   }
