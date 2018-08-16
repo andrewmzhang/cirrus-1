@@ -294,18 +294,18 @@ def gen_cost(interval):
 def gen_loss(interval, menu, graph_type, oldfig, relayoutData, lockCamera):
 
     if menu == "top_ten":
-        if graph_type == "LOSS":
+        if graph_type == BaseTask.LOSS_VS_TIME:
             how_many = -5
-        elif graph_type == "CPS":
+        elif graph_type == BaseTask.TOTAL_LOSS_VS_TIME:
             how_many = -5
-        elif graph_type == "UPS":
+        elif graph_type == BaseTask.UPDATES_PER_SECOND:
             how_many = 5
     elif menu == 'last_ten':
-        if graph_type == "LOSS":
+        if graph_type == BaseTask.LOSS_VS_TIME:
             how_many = 5
-        elif graph_type == "CPS":
+        elif graph_type == BaseTask.TOTAL_LOSS_VS_TIME:
             how_many = 5
-        elif graph_type == "UPS":
+        elif graph_type == BaseTask.UPDATES_PER_SECOND:
             how_many = -5
     else:
         how_many = 0
