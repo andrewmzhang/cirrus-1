@@ -421,13 +421,15 @@ class PSSparseServerTask : public MLTask {
   Configuration task_config;                //< config for parameter server
   uint32_t num_connections = 0;             //< number of current connections
 
+  std::atomic<uint32_t> last_num_connections;
+
   std::map<int, bool> task_to_status;            //< keep track of task status
   std::map<int, std::string> operation_to_name;  //< request id to name
 
   char* thread_msg_buffer[NUM_PS_WORK_THREADS];  // per-thread buffer
   std::atomic<int> thread_count;  //< keep track of each thread's id
 
-  uint32_t num_updates = 0;       // Last measured num updates
+  std::atomic<int> num_updates;       // Last measured num updates
   std::atomic<bool> kill_signal;  // Used to coordinate thread kills
 };
 

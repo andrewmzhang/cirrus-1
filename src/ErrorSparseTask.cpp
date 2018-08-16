@@ -137,7 +137,7 @@ void ErrorSparseTask::error_response() {
     std::cout << "Received: " << operation << std::endl;
 
     if (operation == GET_LAST_TIME_ERROR) {
-      double time_error[4] = {last_time, last_error, curr_error, total_loss};
+      double time_error[4] = {last_time, last_error, curr_error, last_error};
       ret = sendto(fd, time_error, 4 * sizeof(double), 0,
                    (struct sockaddr*) &remaddr, addrlen);
       if (ret < 0) {

@@ -40,6 +40,7 @@ PSSparseServerTask::PSSparseServerTask(uint64_t model_size,
 
   std::atomic_init(&gradientUpdatesCount, 0UL);
   std::atomic_init(&thread_count, 0);
+  std::atomic_init(&num_updates, 0);
 
   operation_to_name[0] = "SEND_LR_GRADIENT";
   operation_to_name[1] = "SEND_MF_GRADIENT";
@@ -717,7 +718,7 @@ void PSSparseServerTask::run(const Configuration& config) {
     auto elapsed_us = now - last_tick;
     auto since_start_sec = 1.0 * (now - start) / 1000000;
 
-    num_updates = static_cast<uint32_t>(1.0 * gradientUpdatesCount /
+    num_updates = static_cast<int>(1.0 * gradientUpdatesCount /
                                         elapsed_us * 1000 * 1000);
 
     if (elapsed_us > 1000000) {
