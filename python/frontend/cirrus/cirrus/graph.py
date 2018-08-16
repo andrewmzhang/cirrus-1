@@ -13,6 +13,10 @@ from dash.dependencies import Input, Output, State
 from plotly.graph_objs import *
 
 from core import BaseTask
+from flask import request
+
+def clear_server():
+    pass
 
 process = psutil.Process(os.getpid())
 
@@ -200,6 +204,7 @@ def killall_clicked(n_clicks):
     if (n_clicks > 0):
         for i in range(get_num_experiments()):
             bundle.kill(i)
+        clear_server()
         return "Kill All"
     return "Kill All"
 
@@ -343,5 +348,5 @@ def gen_loss(interval, menu, graph_type, oldfig, relayoutData, lockCamera):
     return Figure(data=trace_lst, layout=layout)
 
 
-def display_dash():
-    return IFrame('http://localhost:8050', width=1000, height=600)
+def display_dash(port=8050):
+    return IFrame('http://localhost:%d' % port, width=1000, height=600)

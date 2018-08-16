@@ -29,7 +29,7 @@ class GridSearch:
                  num_jobs=1,
                  timeout=-1,
                  ):
-
+        self.port = 8050
         # Private Variables
         self.cirrus_objs = [] # Stores each singular experiment
         self.infos = []       # Stores metadata associated with each experiment
@@ -235,10 +235,12 @@ class GridSearch:
         if UI:
             def ui_func(self):
                 graph.bundle = self
-                graph.app.run_server()
+                graph.app.run_server(port=self.port)
 
             self.ui_thread = threading.Thread(target=ui_func, args = (self, ))
             self.ui_thread.start()
+        else:
+            graph.bundle = self
 
     # Stop all experiments
     def kill_all(self):
