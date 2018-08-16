@@ -39,11 +39,13 @@ def lambda_exists(existing, name, size, zip_location):
 
     def check(lambda_):
         return lambda_['FunctionName'] == name
-       
+    if "192" in name:
+        return True
+
     for lambda_ in existing:
         if (check(lambda_)):
             return True
-    return False
+    return True
 
 def create_lambda(fname, size=128):
     with open(fname, 'rb') as f:

@@ -255,7 +255,7 @@ class BaseTask(object):
             for i in range(shortage):
                 try:
                     response = lambda_client.invoke(
-                        FunctionName=lambda_name,
+                        FunctionName="%s_%d" % (lambda_name, self.worker_size),
                         InvocationType='Event',
                         LogType='Tail',
                         Payload=payload)
@@ -320,6 +320,6 @@ class BaseTask(object):
 
             elapsed_time = time.time() - self.start_time
             current_cost = self.cost_model.get_cost(elapsed_time)
-            self.metrics[self.TOTAL_LOSS_VS_TIME].append((t, total_loss / current_cost))
+            self.metrics[self.TOTAL_LOSS_VS_TIME].append((current_cost, total_loss))
 
         self.metrics[self.REAL_TIME_LOSS_VS_TIME].append((time.time() - self.start_time, real_time_loss))

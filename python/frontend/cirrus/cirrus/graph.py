@@ -307,10 +307,17 @@ def gen_loss(interval, menu, graph_type, oldfig, relayoutData, lockCamera):
 
     trace_lst = get_traces(how_many, metric=graph_type)
 
-    graph_names = {
+    y_axis_names = {
             BaseTask.LOSS_VS_TIME : "Loss", 
             BaseTask.UPDATES_PER_SECOND : "Updates/Second", 
-            BaseTask.TOTAL_LOSS_VS_TIME : "Loss/Cost"}
+            BaseTask.TOTAL_LOSS_VS_TIME : "Loss"}
+    
+    x_axis_names = {
+            BaseTask.LOSS_VS_TIME: "Time Elapsed (sec)",
+            BaseTask.UPDATES_PER_SECOND: "Time Elapsed (sec)",
+            BaseTask.TOTAL_LOSS_VS_TIME: "Cost ($)"
+    }
+    
 
     if 'lock' in lockCamera:
         return oldfig
@@ -318,10 +325,10 @@ def gen_loss(interval, menu, graph_type, oldfig, relayoutData, lockCamera):
         layout = Layout(
             height=450,
             xaxis=dict(
-                title='Time Elapsed (sec)'
+                title=x_axis_names[graph_type]
             ),
             yaxis=dict(
-                title=graph_names[graph_type]
+                title=y_axis_names[graph_type]
 
             ),
             margin=Margin(
