@@ -49,7 +49,6 @@ class GridSearch:
         for public_dns in machines:
             private_ip = public_dns_to_private_ip(public_dns)
             ips.append(private_ip)
-        print ips
 
         self.machines = zip(machines, ips)
 

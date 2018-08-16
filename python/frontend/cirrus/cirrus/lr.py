@@ -18,14 +18,16 @@ class LogisticRegressionTask(BaseTask):
         else:
             grad_t = 0
 
-        config = "input_path: /mnt/efs/criteo_kaggle/train.csv \n" + \
-                 "input_type: csv\n" + \
+        config = "load_input_path: /mnt/efs/criteo_kaggle/train.csv \n" + \
+                 "load_input_type: csv\n" + \
+                 "limit_samples: 50000000 \n" + \
                  "num_classes: 2 \n" + \
                  "num_features: 13 \n" + \
                  "limit_cols: 14 \n" + \
                  "normalize: 1 \n" + \
                  "limit_samples: 50000000 \n" + \
                  "s3_size: 50000 \n" + \
+                 "dataset_format: binary \n" + \
                  "use_bias: 1 \n" + \
                  "model_type: LogisticRegression \n" + \
                  "minibatch_size: %d \n" % self.minibatch_size + \
