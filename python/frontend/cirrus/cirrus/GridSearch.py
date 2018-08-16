@@ -50,7 +50,8 @@ class GridSearch:
             private_ip = public_dns_to_private_ip(public_dns)
             ips.append(private_ip)
 
-        self.machines = zip(machines, ips)
+        self.machines = zip(machines, ips) 
+
 
         # Setup
         self.set_task_parameters(
@@ -100,7 +101,7 @@ class GridSearch:
             self.param_lst.append(modified_config)
             lambda_name = "testfunc1_%d" % c.worker_size
             if not lambda_exists(lambdas, lambda_name, c.worker_size, bundle_zip_location):
-                print lambda_name + " Does not exist"
+
                 lambdas.append({'FunctionName': lambda_name})
                 create_lambda(bundle_zip_location, size=c.worker_size)
 
@@ -194,7 +195,7 @@ class GridSearch:
                 if thread_id >= len(self.machines):
                     return
 
-                sh_file = "machine_%d.sh" % thread_id
+                sh_file = "machine_%s.sh" % self.machines[thread_id][0]
                 ubuntu_machine = "ubuntu@%s" % self.machines[thread_id][0]
 
                 cmd = "scp %s %s:~/" % (sh_file, ubuntu_machine)

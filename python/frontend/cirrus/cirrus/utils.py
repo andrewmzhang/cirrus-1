@@ -77,6 +77,21 @@ def command_dict_to_file(command_dict):
     for key, no in zip(command_dict.keys(), range(len(command_dict.keys()))):
         lst = command_dict[key]
 
-        with open("machine_%d.sh" % no, "w") as f:
+        with open("machine_%s.sh" % key, "w") as f:
             for cmd in lst:
                 f.write(cmd + "\n\n")
+
+
+if __name__ == "__main__":
+
+    ips = []
+
+    pub =  ["ec2-18-237-213-139.us-west-2.compute.amazonaws.com",
+            "ec2-18-237-31-107.us-west-2.compute.amazonaws.com",
+            "ec2-34-211-54-228.us-west-2.compute.amazonaws.com"]
+
+
+    for p in pub:
+        ips.append(public_dns_to_private_ip(p))
+
+    print zip(pub, ips)
