@@ -32,7 +32,7 @@ class BaseTask(object):
             dataset,
             learning_rate,
             epsilon,
-            key_name, key_path, # aws key
+#            key_name, key_path, # aws key
             ps_ip_public, # public parameter server ip
             ps_ip_private, # private parameter server ip
             ps_ip_port,
@@ -56,8 +56,8 @@ class BaseTask(object):
         self.dataset=dataset
         self.learning_rate = learning_rate
         self.epsilon = epsilon
-        self.key_name = key_name
-        self.key_path = key_path
+#        self.key_name = key_name
+#        self.key_path = key_path
         self.ps_ip_public = ps_ip_public
         self.ps_ip_private = ps_ip_private
         self.ps_ip_port = ps_ip_port
