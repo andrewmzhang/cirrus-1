@@ -27,8 +27,8 @@ def get_last_time_error(ip="127.0.0.1", port=1338):
         clientsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         clientsocket.sendto(GET_LAST_TIME_ERROR, (ip, port))
         clientsocket.settimeout(10)
-        s = clientsocket.recv(192)
-        return struct.unpack("ddd", s)
+        s = clientsocket.recv(256)
+        return struct.unpack("dddd", s)
     except Exception, e:
         return None
 
@@ -56,8 +56,3 @@ def send_kill_signal(ip="127.0.0.1", port=1337):
         clientsocket.close()
         return False
 
-
-
-if __name__ == "__main__":
-    
-    print get_last_time_error()
