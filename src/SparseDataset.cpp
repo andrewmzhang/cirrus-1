@@ -286,6 +286,8 @@ void SparseDataset::normalize(uint64_t hash_size) {
   for (const auto& w : data_) {
     for (const auto& v : w) {
       uint64_t index = v.first;
+      if (index >= 13)
+        continue;
       FEATURE_TYPE value = v.second;
 
 #ifdef DEBUG
@@ -300,6 +302,8 @@ void SparseDataset::normalize(uint64_t hash_size) {
   for (auto& w : data_) {
     for (auto& v : w) {
       int index = v.first;
+      if (index >= 13)
+        continue;
 
       if (max_val_feature[index] == min_val_feature[index]) {
         // this happens if feature has always the same value

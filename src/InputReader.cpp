@@ -853,8 +853,11 @@ void InputReader::parse_criteo_kaggle_sparse_line(
     } else if (col == 1) { // it's label
       label = string_to<FEATURE_TYPE>(l);
       assert(label == 0.0 || label == 1.0);
+    } else if (col > 1 && col <= 14) {
+      features[col - 1] = string_to<int>(l);
     } else {
       uint64_t hash = hash_f(l) % hash_size;
+      hash += 14;
       features[hash]++;
     }
     col++;
@@ -881,7 +884,7 @@ SparseDataset InputReader::read_input_criteo_kaggle_sparse(
   std::cout << "Reading criteo kaggle sparse input file: " << input_file << std::endl;
   std::cout << "Limit_line: " << config.get_limit_samples() << std::endl;
 
-  assert(delimiter == ",");
+  //assert(delimiter == ",");
 
   std::ifstream fin(input_file, std::ifstream::in);
   if (!fin) {
