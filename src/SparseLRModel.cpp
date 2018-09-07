@@ -415,10 +415,10 @@ void SparseLRModel::loadSerializedSparse(const FEATURE_TYPE* weights,
 
 void SparseLRModel::ensure_preallocated_vectors(const Configuration& config) const {
   if (unique_indices.capacity() == 0) {
-    unique_indices.reserve(500);
+    unique_indices.reserve(5000);
   } else {
     unique_indices.clear();
-    unique_indices.reserve(500);
+    unique_indices.reserve(5000);
   }
   
   if (part3.capacity() == 0) {
@@ -427,7 +427,7 @@ void SparseLRModel::ensure_preallocated_vectors(const Configuration& config) con
   
   // value needs to be less than number of samples in minibatch
   if (part2.capacity() == 0) {
-    part2.resize(500);
+    part2.resize(5000);
   }
 }
 
