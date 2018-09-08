@@ -352,7 +352,16 @@ void PSSparseServerTask::gradient_f() {
       continue;
     } else if (operation == PYTHONDECON) { 
       std::cout << "CLOSING PYTHON CONN" << std::endl;
-      num_connections--;
+      // read the task id
+      uint32_t task_id = 0;
+      if (read_all(sock, &task_id, sizeof(uint32_t)) == 0) {
+        handle_failed_read(&req.poll_fd);
+        continue;
+      }
+      uint32_t task_reg =
+          (registered_tasks.find(task_id) != registered_tasks.end());
+      if (task_reg == 1)
+        registered_tasks.erase(task_id);
       close(sock); 
       continue;
     } else if (operation == SEND_LR_GRADIENT || operation == SEND_MF_GRADIENT ||
