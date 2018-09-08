@@ -88,8 +88,11 @@ void LogisticSparseTaskS3::run(const Configuration& config, int worker) {
 
   bool printed_rate = false;
   int cnt = 0;
+  auto real_start = get_time_ms();
   auto start_time = get_time_ms();
-  while (1) {
+  auto elapsed_ms = 0;
+  while ((elapsed_ms / 1000.0) < 15) {
+    elapsed_ms = get_time_ms() - real_start;
     auto t0 = get_time_ms();
     std::shared_ptr<SparseDataset> dataset;
     if (!get_dataset_minibatch(dataset, s3_iter)) {
@@ -104,7 +107,11 @@ void LogisticSparseTaskS3::run(const Configuration& config, int worker) {
     auto now = get_time_ms();
     cnt++;
     if (now - start_time > 1000) {
-        std::cout << "[WORKER] Events: " << cnt << std::endl;
+        std::cout 
+          << "[WORKER] Events/sec: " 
+          << cnt * 1.0 / (now - start_time) 
+          << " Time: " 
+          << (get_time_ms() - real_start) << std::endl;
         start_time = now;
         cnt = 0;
     }

@@ -216,9 +216,9 @@ void S3SparseIterator::printProgress(const std::string& s3_obj) {
   std::cout
     << "Getting object count: " << count
     << " s3 e2e bw (MB/s): " << total_received / elapsed_sec / 1024.0 / 1024
+    << " Req_per_sec: " << count / elapsed_sec
+    << " time_e: " << elapsed_sec 
     << std::endl;
-  std::cout 
-    << "Req_per_sec: " << count / elapsed_sec << std::endl;
 }
 
 static int sstreamSize(std::ostringstream& ss) {

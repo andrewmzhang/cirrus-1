@@ -329,10 +329,8 @@ void PSSparseServerTask::gradient_f() {
       continue;
     }
 
-#ifdef DEBUG
     std::cout << "Operation: " << operation << " - "
-              << operation_to_name[operation] << std::endl;
-#endif
+             << std::endl;
 
     if (operation == REGISTER_TASK) {
       // read the task id
@@ -349,6 +347,13 @@ void PSSparseServerTask::gradient_f() {
         registered_tasks.insert(task_id);
       }
       send_all(sock, &task_reg, sizeof(uint32_t));
+      close(sock);
+      num_connections--;
+      continue;
+    } else if (operation == PYTHONDECON) { 
+      std::cout << "CLOSING PYTHON CONN" << std::endl;
+      num_connections--;
+      close(sock); 
       continue;
     } else if (operation == SEND_LR_GRADIENT || operation == SEND_MF_GRADIENT ||
                operation == GET_LR_SPARSE_MODEL ||
