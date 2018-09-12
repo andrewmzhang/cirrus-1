@@ -205,20 +205,24 @@ void S3SparseIterator::printProgress(const std::string& s3_obj) {
   static uint64_t start_time = 0;
   static uint64_t total_received = 0;
   static uint64_t count = 0;
+  static double elapsed_sec = 0;
 
   if (start_time == 0) {
     start_time = get_time_us();
   }
-  total_received += s3_obj.size();
+  auto latest_received = s3_obj.size();
+  total_received += latest_received;
   count++;
 
-  double elapsed_sec = (get_time_us() - start_time) / 1000.0 / 1000.0;
+  double curr_elapsed = ((get_time_us() - start_time) / 1000.0 / 1000.0) - elapsed_sec;   
+  elapsed_sec = (get_time_us() - start_time) / 1000.0 / 1000.0;   
   std::cout
     << "Getting object count: " << count
-    << " s3 e2e bw (MB/s): " << total_received / elapsed_sec / 1024.0 / 1024
-    << " Req_per_sec: " << count / elapsed_sec
-    << " time_e: " << elapsed_sec 
+    << " s3 e2e bw (MB/s): " << latest_received / curr_elapsed / 1024.0 / 1024
+    << " Req_per_sec: " << 1.0 / curr_elapsed
+    << " time_e: " << elapsed_sec
     << std::endl;
+
 }
 
 static int sstreamSize(std::ostringstream& ss) {

@@ -91,7 +91,7 @@ void LogisticSparseTaskS3::run(const Configuration& config, int worker) {
   auto real_start = get_time_ms();
   auto start_time = get_time_ms();
   auto elapsed_ms = 0;
-  while ((elapsed_ms / 1000.0) < 15) {
+  while ((elapsed_ms / 1000.0) < 270) {
     elapsed_ms = get_time_ms() - real_start;
     auto t0 = get_time_ms();
     std::shared_ptr<SparseDataset> dataset;
