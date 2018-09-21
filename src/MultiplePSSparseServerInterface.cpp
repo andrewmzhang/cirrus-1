@@ -2,6 +2,7 @@
 #include <cassert>
 #include "Constants.h"
 #include "PSSparseServerInterface.h"
+#include "lz4.h"
 
 #undef DEBUG
 
@@ -120,10 +121,30 @@ void MultiplePSSparseServerInterface::get_lr_sparse_model_inplace(
     // 2. Send msg size
     uint32_t msg_size =
         sizeof(uint32_t) + sizeof(uint32_t) * num_weights_lst[i];
-    send_all(psints[i]->sock, &msg_size, sizeof(uint32_t));
+    uint32_t to_send_size = msg_size;
+    char* msg_data = msg_begin_lst[i];
+#ifdef ENABLE_LR_COMPRESSION
+    size_t max_compressed_size = LZ4_compressBound(msg_size) + 2048;
+    std::shared_ptr<char[]> comp_data(new char[max_compressed_size]);
+     char* comp_ptr = comp_data.get();
+    store_value<uint32_t>(comp_ptr, msg_size);
+    to_send_size =
+            LZ4_compress_default(msg_begin_lst[i], // dont compress the uncompr size
+                                 comp_ptr, msg_size, max_compressed_size) +
+            sizeof(uint32_t);
+    msg_data = comp_data.get();
+#endif
+#ifdef DEBUG
+    std::cout << "msg_size: " << msg_size
+      << " num_weights: " << num_weights_lst[i]
+      << " to_send_size: " << to_send_size
+      << std::endl;
+#endif
+
+    send_all(psints[i]->sock, &to_send_size, sizeof(uint32_t));
 
     // 3. Send num_weights + weights
-    if (send_all(psints[i]->sock, msg_begin_lst[i], msg_size) == -1) {
+    if (send_all(psints[i]->sock, msg_data, to_send_size) == -1) {
       throw std::runtime_error("Error getting sparse lr model");
     }
   }
