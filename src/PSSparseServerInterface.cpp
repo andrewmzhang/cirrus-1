@@ -19,9 +19,9 @@ PSSparseServerInterface::PSSparseServerInterface(const std::string& ip, int port
     throw std::runtime_error("Error when creating socket.");
   }
   int opt = 1;
-  if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(opt))) {
-    throw std::runtime_error("Error setting socket options.");
-  }
+  //if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(opt))) {
+  //  throw std::runtime_error("Error setting socket options.");
+  //}
 
   serv_addr.sin_family = AF_INET;
   if (inet_pton(AF_INET, ip.c_str(), &serv_addr.sin_addr) != 1) {

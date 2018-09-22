@@ -52,11 +52,25 @@ void MultiplePSSparseServerInterface::send_gradient(
     auto psint = psints[i];
     auto sas = starts_and_size[i];
 
-    ret = psint->send_wrapper(std::get<1>(sas), sizeof(uint32_t));
+  char* msg_data = data + std::get<0>(sas);
+  uint32_t msg_size = std::get<1>(sas);
+#ifdef ENABLE_LR_COMPRESSION
+  size_t max_compressed_size = LZ4_compressBound(msg_size) + 2048;
+  std::shared_ptr<char[]> comp_data(new char[max_compressed_size]);
+  char* comp_ptr = comp_data.get();
+  store_value<uint32_t>(comp_ptr, msg_size);
+  to_send_size =
+          LZ4_compress_default(msg_data, // dont compress the uncompr size
+                               comp_ptr, msg_size, max_compressed_size) +
+          sizeof(uint32_t);
+  msg_data = comp_data.get();
+#endif
+
+    ret = psint->send_wrapper(msg_size, sizeof(uint32_t));
     if (ret == -1) {
       throw std::runtime_error("Error sending grad size");
     }
-    ret = psint->send_all_wrapper(data + std::get<0>(sas), std::get<1>(sas));
+    ret = psint->send_all_wrapper(msg_data, msg_size);
     if (ret == 0) {
       throw std::runtime_error("Error sending grad");
     }

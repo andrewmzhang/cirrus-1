@@ -522,10 +522,10 @@ void PSSparseServerTask::main_poll_thread_fn(int poll_id) {
     }
 
     int opt = 1;
-    if (setsockopt(server_sock_, IPPROTO_TCP,
-                TCP_NODELAY, &opt, sizeof(opt))) {
-      throw std::runtime_error("Error setting socket options.");
-    }
+    //if (setsockopt(server_sock_, IPPROTO_TCP,
+    //            TCP_NODELAY, &opt, sizeof(opt))) {
+    //  throw std::runtime_error("Error setting socket options.");
+    //}
     if (setsockopt(server_sock_, SOL_SOCKET,
                 SO_REUSEADDR, &opt, sizeof(opt))) {
       throw std::runtime_error("Error forcing port binding");
