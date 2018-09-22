@@ -41,4 +41,4 @@ using FEATURE_TYPE = float;
 // define number of parameter server working threads
 #define NUM_PS_WORK_THREADS 30
 
-#define ENABLE_COMPRESSION
+//#define ENABLE_LR_COMPRESSION

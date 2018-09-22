@@ -153,6 +153,14 @@ T load_value(const C*& data) {
   return ret;
 }
 
+template <typename T, typename C>
+T load_value(C*& data) {
+  const T* v_ptr = reinterpret_cast<const T*>(data);
+  T ret = *v_ptr;
+  advance_ptr(data, sizeof(T));
+  return ret;
+}
+
 ssize_t send_all(int sock, void* data, size_t len);
 
 ssize_t read_all(int sock, void* data, size_t len);
